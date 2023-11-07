@@ -28,6 +28,7 @@ async function run() {
     await client.connect();
 
     const serviceCollection = client.db('pestControl').collection('services')
+    const bookingCollection = client.db('pestControl').collection('bookings')
 
     app.get('/services', async(req, res)=>{
         const cursor = serviceCollection.find()
@@ -42,6 +43,15 @@ async function run() {
             projection: {name: 1, short_description: 1, details1: 1, details2: 1, details3: 1, image1: 1, image2: 1, image3: 1, price: 1, service_provider_name: 1, service_provider_image: 1, service_provider_email: 1}
         }
         const result = await serviceCollection.findOne(query, options)
+        res.send(result)
+    })
+
+    // booking//
+
+    app.post('/bookings', async(req, res)=>{
+        const booking = req.body
+        console.log(booking)
+        const result = await bookingCollection.insertOne(booking)
         res.send(result)
     })
     // Send a ping to confirm a successful connection
