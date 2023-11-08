@@ -69,7 +69,7 @@ async function run() {
 
         // new service //
         app.get('/newservices', async (req, res)=>{
-            console.log(req.query.user_email)
+            
             let query = {}
             if (req.query?.user_email){
                 query = {user_email: req.query.user_email}
@@ -88,7 +88,7 @@ async function run() {
 
         app.post('/newservices', async(req, res) =>{
             const newServices =req.body
-            console.log(newServices)
+            
             const result = await newServiceCollection.insertOne(newServices)
             res.send(result)
         })
