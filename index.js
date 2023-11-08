@@ -78,11 +78,25 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/newservices/:id', async(req, res)=>{
+            const id = req.params.id
+            const query = {_id: new ObjectId(id)}
+            const result = await newServiceCollection.findOne(query)
+            res.send(result)
+        })
+
 
         app.post('/newservices', async(req, res) =>{
             const newServices =req.body
             console.log(newServices)
             const result = await newServiceCollection.insertOne(newServices)
+            res.send(result)
+        })
+
+        app.delete('/newservices/:id', async (req, res)=>{
+            const id = req.params.id
+            const query = {_id: new ObjectId(id)}
+            const result = await newServiceCollection.deleteOne(query)
             res.send(result)
         })
 
