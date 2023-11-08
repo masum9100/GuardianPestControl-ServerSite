@@ -29,6 +29,7 @@ async function run() {
 
         const serviceCollection = client.db('pestControl').collection('services')
         const bookingCollection = client.db('pestControl').collection('bookings')
+        const newServiceCollection = client.db('pestControl').collection('newservices')
 
         app.get('/services', async (req, res) => {
             const cursor = serviceCollection.find()
@@ -65,6 +66,27 @@ async function run() {
             const result = await bookingCollection.insertOne(booking)
             res.send(result)
         })
+
+        // new service //
+        app.get('/newservices', async (req, res)=>{
+            console.log(req.query.user_email)
+            let query = {}
+            if (req.query?.user_email){
+                query = {user_email: req.query.user_email}
+            }
+            const result = await newServiceCollection.find(query).toArray()
+            res.send(result)
+        })
+
+
+        app.post('/newservices', async(req, res) =>{
+            const newServices =req.body
+            console.log(newServices)
+            const result = await newServiceCollection.insertOne(newServices)
+            res.send(result)
+        })
+
+        
        
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
